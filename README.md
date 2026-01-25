@@ -24,7 +24,7 @@ koreader_store/
     ├── markdown.py        # Markdown to HTML conversion
     └── versioning.py     # Version comparison utilities
 ```
-
+**Many buttons and actions may take some time to respond. Please be patient — even if it says “Not Responding,” just click “Wait.”**
 ## Features
 
 - **Plugin Management**: Browse, install, and update KOReader plugins
@@ -50,6 +50,8 @@ koreader_store/
    python main.py
    ```
 
+**Tip: Inital start can take some time as it fetches all plugins!**
+
 ## Usage
 
 1. **Device Connection**: The app will automatically detect KOReader devices, or you can manually select the path
@@ -57,6 +59,7 @@ koreader_store/
 3. **Install**: Click the install button on any plugin card
 4. **Updates**: The app will show available updates for installed plugins
 
+**Tip: The Check for Updates can take some time be patient!**
 ## Architecture
 
 ### UI Components (`ui/`)
@@ -136,4 +139,5 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
 
