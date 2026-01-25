@@ -42,6 +42,7 @@ koreader_store/
 1. Go to the releases tab and download the exe
 2. Run the exe(there might be a application not responding message just wait).
 
+**Everyone else**:
 
 0. Make sure python is installed(https://www.python.org/downloads/)
 1. Click on Code then download zip
@@ -147,6 +148,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
 
 
 
