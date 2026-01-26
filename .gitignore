@@ -1,0 +1,8 @@
+services/__pycache__/
+ui/__pycache__/
+tests/__pycache__/
+workers/__pycache__/
+*.pyc
+koreader_store.log
+koreader_store_cache.json
+koreader_store_token.json

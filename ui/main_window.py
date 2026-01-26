@@ -2,6 +2,7 @@
 Main Window UI for KOReader Store
 """
 
+import re
 import sys
 import json
 import logging
@@ -456,9 +457,14 @@ class KOReaderStore(QMainWindow):
                 with open(self.token_file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     token = data.get('token')
-                    if token:
+                    #validate token format if invalid will prompt again on next run of program.
+                    valid_token = re.search(r"^ghp_[a-zA-Z0-9]{36}$",token)
+                    if valid_token:
                         logger.info("Loaded saved GitHub token")
                         return token
+                    else:
+                        logger.warning("Invalid Token Format")
+                        return None
         except Exception as e:
             logger.error(f"Failed to load token: {e}")
         return None
