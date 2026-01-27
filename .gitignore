@@ -6,3 +6,4 @@ workers/__pycache__/
 koreader_store.log
 koreader_store_cache.json
 koreader_store_token.json
+koreader_store_favorites.json

@@ -124,9 +124,12 @@ class KOReaderStore(QMainWindow):
         self.plugins = []
         self.patches = []
         self.installed_plugins = set()
+        self.favorites = set()
         
         # Services
         self.cache_service = CacheService()
+        # Load favorites from cache
+        self.favorites = self.cache_service.get_favorites()
         
         # Initialize cached updates
         self.cached_updates = {}
@@ -392,7 +395,7 @@ class KOReaderStore(QMainWindow):
         
         # Status filter
         self.status_combo = QComboBox()
-        self.status_combo.addItems(["🎮 Status", "✅ Installed", "⬆️ Updates Available", "🆕 Not Installed"])
+        self.status_combo.addItems(["🎮 Status", "❤️ Favorites", "✅ Installed", "⬆️ Updates Available", "🆕 Not Installed"])
         self.status_combo.setStyleSheet("""
             QComboBox {
                 background-color: rgba(168, 85, 247, 0.2);
@@ -622,9 +625,11 @@ border: 1px solid #fecaca;
                     if update_info.get("installed_version", "Unknown") != "Unknown":
                         has_update = True
             
-            card = PluginCard(item, installed, has_update)
+            is_favorite = item_name in self.favorites
+            card = PluginCard(item, installed, has_update, is_favorite=is_favorite)
             card.install_clicked.connect(lambda data, has_update, t=item_type: self.install_item(data, t, has_update))
             card.details_clicked.connect(self.show_details)
+            card.favorite_clicked.connect(self.toggle_favorite)
             layout.addWidget(card, row, col)
             
             col += 1
@@ -675,7 +680,10 @@ border: 1px solid #fecaca;
                 
                 # Status filter
                 installed = item_name in self.installed_plugins
-                if status_option == "✅ Installed" and not installed:
+                is_favorite = item_name in self.favorites
+                if status_option == "❤️ Favorites" and not is_favorite:
+                    continue
+                elif status_option == "✅ Installed" and not installed:
                     continue
                 elif status_option == "🆕 Not Installed" and installed:
                     continue
@@ -693,6 +701,19 @@ border: 1px solid #fecaca;
             self.display_items(filtered, layout, item_type)
         except Exception as e:
             logger.error(f"Error in filter_items: {e}")
+    
+    def toggle_favorite(self, data, is_favorite):
+        """Toggle favorite status for a plugin"""
+        plugin_name = data.get("name", "")
+        if is_favorite:
+            self.favorites.add(plugin_name)
+            self.cache_service.add_favorite(plugin_name)
+        else:
+            self.favorites.discard(plugin_name)
+            self.cache_service.remove_favorite(plugin_name)
+        
+        # Refresh display to update favorite status
+        self.filter_items()
     
     def check_for_updates(self):
         """Check for updates manually when button is clicked"""

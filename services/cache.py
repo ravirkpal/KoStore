@@ -194,18 +194,59 @@ class CacheService:
                 return plugin
         return None
     
-    def get_patch_by_id(self, patch_id: int) -> Optional[Dict[str, Any]]:
+    def get_favorites(self) -> set:
         """
-        Get a specific patch by ID from cache.
+        Get cached favorites.
+        
+        Returns:
+            Set of favorite plugin names
+        """
+        return set(self.cache_data.get('favorites', []))
+    
+    def set_favorites(self, favorites: set) -> None:
+        """
+        Set cached favorites.
         
         Args:
-            patch_id: GitHub repository ID
+            favorites: Set of favorite plugin names
+        """
+        self.cache_data['favorites'] = list(favorites)
+        logger.info(f"Cached {len(favorites)} favorites")
+    
+    def add_favorite(self, plugin_name: str) -> None:
+        """
+        Add a plugin to favorites.
+        
+        Args:
+            plugin_name: Name of the plugin to add to favorites
+        """
+        favorites = self.get_favorites()
+        favorites.add(plugin_name)
+        self.set_favorites(favorites)
+        self.save_cache()
+        logger.info(f"Added {plugin_name} to favorites")
+    
+    def remove_favorite(self, plugin_name: str) -> None:
+        """
+        Remove a plugin from favorites.
+        
+        Args:
+            plugin_name: Name of the plugin to remove from favorites
+        """
+        favorites = self.get_favorites()
+        favorites.discard(plugin_name)
+        self.set_favorites(favorites)
+        self.save_cache()
+        logger.info(f"Removed {plugin_name} from favorites")
+    
+    def is_favorite(self, plugin_name: str) -> bool:
+        """
+        Check if a plugin is in favorites.
+        
+        Args:
+            plugin_name: Name of the plugin to check
             
         Returns:
-            Patch dictionary if found, None otherwise
+            True if plugin is in favorites, False otherwise
         """
-        patches = self.get_patches()
-        for patch in patches:
-            if patch.get('id') == patch_id:
-                return patch
-        return None
+        return plugin_name in self.get_favorites()

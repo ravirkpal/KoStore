@@ -12,8 +12,9 @@ class PluginCard(QFrame):
     """Widget for individual plugin card"""
     install_clicked = pyqtSignal(dict, bool)
     details_clicked = pyqtSignal(dict)
+    favorite_clicked = pyqtSignal(dict, bool)
     
-    def __init__(self, data, installed=False, has_update=False, version=""):
+    def __init__(self, data, installed=False, has_update=False, version="", is_favorite=False):
         super().__init__()
 
         shadow = QGraphicsDropShadowEffect(self)
@@ -26,13 +27,15 @@ class PluginCard(QFrame):
         self.installed = installed
         self.has_update = has_update
         self.version = version
+        self.is_favorite = is_favorite
         self.init_ui()
     
     def init_ui(self):
         self.setFrameStyle(QFrame.Shape.NoFrame)
         
-        # Modern card design with gradient background
-        self.setFixedSize(280, 200)
+        # Modern card design with dynamic height
+        self.setFixedWidth(280)
+        self.setMinimumHeight(200)
         
         # Dynamic styling based on status
         if self.has_update:
@@ -58,12 +61,12 @@ QFrame:hover {
 
         
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(20, 20, 20, 20)
-        layout.setSpacing(12)
+        layout.setContentsMargins(10, 8, 10, 8)
+        layout.setSpacing(4)
         
         # Status badges
         status_layout = QHBoxLayout()
-        status_layout.setSpacing(8)
+        status_layout.setSpacing(4)
         
         if self.installed:
             installed_badge = QLabel("✅ INSTALLED")
@@ -128,7 +131,7 @@ line-height: 1.4;
 """)
 
         desc_label.setMinimumHeight(30)
-        desc_label.setMaximumHeight(50)
+        desc_label.setMaximumHeight(36)
         layout.addWidget(desc_label)
         
         # Rating and stats
@@ -150,20 +153,45 @@ line-height: 1.4;
         stats_layout.addStretch()
         layout.addLayout(stats_layout)
         
+        layout.addStretch()
+        
         # Action buttons
         button_layout = QHBoxLayout()
-        button_layout.setSpacing(8)
+        button_layout.setSpacing(0)
+        button_layout.setContentsMargins(0, 0, 0, 0)
+        
+        # Favorite button
+        favorite_btn = QPushButton("🤍" if not self.is_favorite else "❤️")
+        favorite_btn.setFixedSize(52, 40)
+        favorite_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #f0f0f0;
+                color: #1a1a1a;
+                border: 1px solid #e0e0e0;
+                border-radius: 6px;
+                font-size: 22px;
+                font-weight: bold;
+                text-align: center;
+            }
+            QPushButton:hover {
+                background-color: #e0e0e0;
+            }
+        """)
+        favorite_btn.clicked.connect(lambda: self.favorite_clicked.emit(self.data, not self.is_favorite))
+        button_layout.addWidget(favorite_btn)
         
         # Details button
         details_btn = QPushButton("📋")
-        details_btn.setFixedSize(32, 32)
+        details_btn.setFixedSize(52, 40)
         details_btn.setStyleSheet("""
             QPushButton {
                 background-color: #f0f0f0;
                 color: #1a1a1a;
                 border: 1px solid #e0e0e0;
-                border-radius: 8px;
-                font-size: 12px;
+                border-radius: 6px;
+                font-size: 20px;
+                font-weight: bold;
+                text-align: center;
             }
             QPushButton:hover {
                 background-color: #e0e0e0;
@@ -171,6 +199,8 @@ line-height: 1.4;
         """)
         details_btn.clicked.connect(lambda: self.details_clicked.emit(self.data))
         button_layout.addWidget(details_btn)
+        
+        button_layout.addStretch()
         
         # Install/Update button
         if self.installed:
@@ -192,10 +222,11 @@ line-height: 1.4;
 QPushButton {{
     background-color: {btn_color};
     color: white;
-    border-radius: 12px;
-    padding: 10px;
+    border-radius: 8px;
+    padding: 12px 14px;
     font-size: 13px;
     font-weight: 600;
+    min-width: 110px;
 }}
 
 QPushButton:hover {{
