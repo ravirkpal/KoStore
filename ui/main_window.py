@@ -479,32 +479,78 @@ class KOReaderStore(QMainWindow):
         koreader_path = self.device_detection.detect_koreader_device()
         
         if koreader_path:
-            self.koreader_path = koreader_path
-            logger.info(f"Selected KOReader device: {self.koreader_path}")
-            self.update_device_status(True)
-            self.plugin_installer = PluginInstaller(str(self.koreader_path))
-            self.load_installed_plugins()
+            # Check if multiple paths were returned
+            if isinstance(koreader_path, list):
+                self.prompt_device_selection(koreader_path)
+            else:
+                self.koreader_path = koreader_path
+                logger.info(f"Selected KOReader device: {self.koreader_path}")
+                self.update_device_status(True)
+                self.plugin_installer = PluginInstaller(str(self.koreader_path))
+                self.load_installed_plugins()
         else:
             logger.info("No KOReader devices detected")
             self.update_device_status(False)
     
     def select_koreader_path(self):
-        """Manually select KOReader path"""
+        """Manually select KOReader path - skips all checks"""
         path = QFileDialog.getExistingDirectory(self, "Select KOReader Device")
         if path:
             selected_path = Path(path)
-            device_info = self.device_detection.get_device_info(str(selected_path))
-            
-            if device_info["valid"]:
+            # Skip all validation checks for manual selection
+            self.koreader_path = selected_path
+            self.update_device_status(True)
+            self.plugin_installer = PluginInstaller(str(self.koreader_path))
+            self.load_installed_plugins()
+            logger.info(f"Manually selected KOReader device: {self.koreader_path}")
+    
+    def prompt_device_selection(self, device_paths):
+        """Prompt user to select from multiple KOReader devices"""
+        from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QListWidget, QPushButton
+        
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Select KOReader Device")
+        dialog.setModal(True)
+        
+        layout = QVBoxLayout(dialog)
+        
+        label = QLabel("Multiple KOReader devices found. Please select one:")
+        layout.addWidget(label)
+        
+        list_widget = QListWidget()
+        for path in device_paths:
+            from pathlib import Path
+            path_name = Path(path).name
+            list_widget.addItem(f"{path_name} - {path}")
+        layout.addWidget(list_widget)
+        
+        buttons_layout = QHBoxLayout()
+        select_btn = QPushButton("Select")
+        cancel_btn = QPushButton("Cancel")
+        
+        def on_select():
+            current_row = list_widget.currentRow()
+            if current_row >= 0:
+                selected_path = device_paths[current_row]
                 self.koreader_path = selected_path
+                logger.info(f"User selected KOReader device: {self.koreader_path}")
                 self.update_device_status(True)
                 self.plugin_installer = PluginInstaller(str(self.koreader_path))
                 self.load_installed_plugins()
-                logger.info(f"Manually selected KOReader device: {self.koreader_path}")
-            else:
-                QMessageBox.warning(self, "Error", 
-                    "No valid KOReader device found!\n\n"
-                    "Please select the main directory of your device that contains koreader.sh.")
+                dialog.accept()
+        
+        select_btn.clicked.connect(on_select)
+        cancel_btn.clicked.connect(dialog.reject)
+        
+        buttons_layout.addWidget(select_btn)
+        buttons_layout.addWidget(cancel_btn)
+        layout.addLayout(buttons_layout)
+        
+        # Select first item by default
+        if list_widget.count() > 0:
+            list_widget.setCurrentRow(0)
+        
+        dialog.exec()
     
     def update_device_status(self, connected):
         """Update device status display"""

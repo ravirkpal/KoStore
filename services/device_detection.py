@@ -21,7 +21,7 @@ class DeviceDetection:
     def get_koreader_paths(self) -> List[str]:
         """
         Get possible KOReader installation paths based on the operating system.
-        Enhanced version with more comprehensive path checking.
+        Enhanced version that looks for folders named 'koreader'.
         
         Returns:
             List of possible KOReader paths
@@ -32,21 +32,23 @@ class DeviceDetection:
             # Check common removable drive letters
             for drive in ["E:", "F:", "G:", "H:", "I:", "J:", "K:", "L:", "M:", "N:", "O:", "P:", "Q:", "R:", "S:", "T:", "U:", "V:", "W:", "X:", "Y:", "Z:"]:
                 if os.path.exists(drive):
-                    # Check common KOReader subpaths
-                    common_paths = [
-                        ".adds/koreader",
-                        ".adds", 
-                        "koreader",
-                        "extensions/koreader",
-                        "documents/koreader",
-                        ".kobo/koreader",
-                        "applications/koreader",
+                    # Look for folders named 'koreader' in common locations
+                    search_locations = [
+                        ".adds",
+                        "extensions", 
+                        "documents",
+                        ".kobo",
+                        "applications",
+                        ""  # root of drive
                     ]
                     
-                    for rel_path in common_paths:
-                        koreader_path = os.path.join(drive, rel_path)
-                        if os.path.exists(koreader_path) and self._has_koreader(koreader_path):
-                            paths.append(koreader_path)
+                    for location in search_locations:
+                        search_path = os.path.join(drive, location) if location else drive
+                        if os.path.exists(search_path):
+                            # Look for 'koreader' folder
+                            koreader_folder = os.path.join(search_path, "koreader")
+                            if os.path.exists(koreader_folder) and self._has_koreader(koreader_folder):
+                                paths.append(koreader_folder)
             
             # Check local installations
             local_paths = [
@@ -95,8 +97,16 @@ class DeviceDetection:
         return paths
     
     def _has_koreader(self, path: str) -> bool:
-        """Detects KOReader by looking for koreader.sh file"""
-        return os.path.exists(os.path.join(path, "koreader.sh"))
+        """Detects KOReader by looking for koreader.sh first, then settings.reader.lua"""
+        # First check for koreader.sh
+        if os.path.exists(os.path.join(path, "koreader.sh")):
+            return True
+        
+        # Then check for settings.reader.lua (present on all devices)
+        if os.path.exists(os.path.join(path, "settings.reader.lua")):
+            return True
+        
+        return False
     
     def validate_koreader_installation(self, path: str) -> bool:
         """
@@ -131,6 +141,8 @@ class DeviceDetection:
     def detect_koreader_device(self) -> Optional[str]:
         """
         Automatically detect KOReader device.
+        If multiple devices are found, prompts user to select one.
+        This detection is not cached.
         
         Returns:
             Path to KOReader installation if found, None otherwise
@@ -139,13 +151,19 @@ class DeviceDetection:
         
         possible_paths = self.get_koreader_paths()
         
-        for path in possible_paths:
-            if self.validate_koreader_installation(path):
-                logger.info(f"Detected KOReader device at: {path}")
-                return path
+        if not possible_paths:
+            logger.warning("No KOReader device detected")
+            return None
         
-        logger.warning("No KOReader device detected")
-        return None
+        # If only one path found, use it
+        if len(possible_paths) == 1:
+            selected_path = possible_paths[0]
+            logger.info(f"Detected single KOReader device at: {selected_path}")
+            return selected_path
+        
+        # Multiple paths found - return list for UI to handle selection
+        logger.info(f"Multiple KOReader devices found: {possible_paths}")
+        return possible_paths
     
     def get_device_info(self, koreader_path: str) -> dict:
         """
