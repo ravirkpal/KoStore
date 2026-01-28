@@ -42,6 +42,8 @@ koreader_store/
 2. Download the right zip for you system
 3. Extract the zip and run the File
 
+(4.) Make sure the file has **Read and Write permissions**.
+
 **If that failed**:
 
 0. Make sure python is installed(https://www.python.org/downloads/)
@@ -148,6 +150,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+
+
 
 
 
