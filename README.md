@@ -69,8 +69,10 @@ koreader_store/
 2. **Browse Plugins**: Use the search and filter options to find plugins
 3. **Install**: Click the install button on any plugin card
 4. **Updates**: The app will show available updates for installed plugins
+5. **Manual path**: Use this option if your device or path isn’t automatically detected. Select the main KOReader folder — the one that contains the plugins (and patches) folders.
+  
+7. **Tip: The Check for Updates can take some time be patient!**
 
-**Tip: The Check for Updates can take some time be patient!**
 ## Architecture
 
 ### UI Components (`ui/`)
@@ -150,6 +152,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
 
 
 
