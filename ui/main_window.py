@@ -121,6 +121,7 @@ class KOReaderStore(QMainWindow):
         super().__init__()
         
         self.koreader_path = None
+        self.plugin_installer = None
         self.plugins = []
         self.patches = []
         self.installed_plugins = set()
